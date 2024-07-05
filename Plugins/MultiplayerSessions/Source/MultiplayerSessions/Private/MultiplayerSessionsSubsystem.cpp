@@ -48,7 +48,7 @@ void UMultiplayerSessionsSubsystem::CreateSession(int32 NumPublicConnections, FS
 	if (GEngine)
 	{
 		GEngine->AddOnScreenDebugMessage(
-			1,
+			-1,
 			15.f,
 			FColor::Yellow,
 			FString::Printf(TEXT("开始创建"))
@@ -64,11 +64,19 @@ void UMultiplayerSessionsSubsystem::CreateSession(int32 NumPublicConnections, FS
 		LastNumPublicConnections = NumPublicConnections;
 		LastMatchType = MatchType;
 		DestroySession();
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(
+				-1,
+				15.f,
+				FColor::Yellow,
+				FString::Printf(TEXT("删除已有房间，并且尝试重新创建..."))
+			);
+		}
 	}
 
 	//将创建会话委托句柄存储起来，这样我们就可以从委托列表中删除它  （会话请求完成时，将触发委托函数）
-	CreateSessionCompleteDelegateHandle = SessionInterface->AddOnCreateSessionCompleteDelegate_Handle(
-		CreateSessionCompleteDelegate);
+	CreateSessionCompleteDelegateHandle = SessionInterface->AddOnCreateSessionCompleteDelegate_Handle(CreateSessionCompleteDelegate);
 	//设置单个会话的所有设置
 	LastSessionSettings = MakeShareable(new FOnlineSessionSettings());
 	//设置游戏是联网模式
@@ -114,7 +122,7 @@ void UMultiplayerSessionsSubsystem::FindSessions(int32 MaxSearchResults)
 	if (GEngine)
 	{
 		GEngine->AddOnScreenDebugMessage(
-			1,
+			-1,
 			15.f,
 			FColor::Yellow,
 			FString::Printf(TEXT("开始查找"))
@@ -168,7 +176,7 @@ void UMultiplayerSessionsSubsystem::JoinSession(const FOnlineSessionSearchResult
 	if (GEngine)
 	{
 		GEngine->AddOnScreenDebugMessage(
-			1,
+			-1,
 			15.f,
 			FColor::Yellow,
 			FString::Printf(TEXT("正在尝试加入会话..."))
@@ -176,8 +184,7 @@ void UMultiplayerSessionsSubsystem::JoinSession(const FOnlineSessionSearchResult
 	}
 
 	//设置加入会话完成委托句柄
-	JoinSessionCompleteDelegateHandle = SessionInterface->AddOnJoinSessionCompleteDelegate_Handle(
-		JoinSessionCompleteDelegate);
+	JoinSessionCompleteDelegateHandle = SessionInterface->AddOnJoinSessionCompleteDelegate_Handle(JoinSessionCompleteDelegate);
 
 	//通过控制器获取本地第一个有效的玩家
 	const ULocalPlayer* LocalPlayer = GetWorld()->GetFirstLocalPlayerFromController();
@@ -212,8 +219,7 @@ void UMultiplayerSessionsSubsystem::DestroySession()
 	}
 
 	//摧毁会话委托句柄
-	DestroySessionCompleteDelegateHandle = SessionInterface->AddOnDestroySessionCompleteDelegate_Handle(
-		DestroySessionCompleteDelegate);
+	DestroySessionCompleteDelegateHandle = SessionInterface->AddOnDestroySessionCompleteDelegate_Handle(DestroySessionCompleteDelegate);
 
 	//删除指定的对话
 	if (!SessionInterface->DestroySession(NAME_GameSession))
@@ -274,7 +280,7 @@ void UMultiplayerSessionsSubsystem::OnJoinSessionComplete(FName SessionName, EOn
 	if (GEngine)
 	{
 		GEngine->AddOnScreenDebugMessage(
-			1,
+			-1,
 			15.f,
 			FColor::Green,
 			FString::Printf(TEXT("加入 %s 的会话成功"), *SessionName.ToString())

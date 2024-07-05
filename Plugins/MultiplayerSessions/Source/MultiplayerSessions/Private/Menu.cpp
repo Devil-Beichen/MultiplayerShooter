@@ -93,7 +93,7 @@ void UMenu::OnCreateSession(bool bWasSuccessful)
 		if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(
-				1,
+				-1,
 				15.f,
 				FColor::Green,
 				FString::Printf(TEXT("会话创建成功"))
@@ -107,15 +107,6 @@ void UMenu::OnCreateSession(bool bWasSuccessful)
 	}
 	else
 	{
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(
-				1,
-				15.f,
-				FColor::Red,
-				FString::Printf(TEXT("会话创建失败！！！"))
-			);
-		}
 		HostButton->SetIsEnabled(true);
 	}
 }
@@ -134,7 +125,7 @@ void UMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResu
 		if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(
-				1,
+				-1,
 				15.f,
 				FColor::Red,
 				FString::Printf(TEXT("会话查找失败！！！"))
@@ -168,7 +159,7 @@ void UMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResu
 		else
 		{
 			GEngine->AddOnScreenDebugMessage(
-				1,
+				-1,
 				2.f,
 				FColor::Red,
 				FString::Printf(TEXT("未能找到对应的匹配类型！！！"))

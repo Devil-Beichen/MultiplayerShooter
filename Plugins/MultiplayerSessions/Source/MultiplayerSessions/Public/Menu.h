@@ -23,7 +23,7 @@ public: //公共部分
 	 * @param LobbyPath							大厅地址
 	 */
 	UFUNCTION(BlueprintCallable, meta=(Keywords = "菜单设置", DisplayName = "菜单设置"), Category="会话相关")
-	void MenuSetup(int32 NumberOfPublicConnections = 4, FString TypeOfMatch = FString(TEXT("FreeForALL")),FString LobbyPath = FString(TEXT("/Game/ThirdPerson/Maps/Lobby")));
+	void MenuSetup(int32 NumberOfPublicConnections = 4, FString TypeOfMatch = FString(TEXT("FreeForAll")),FString LobbyPath = FString(TEXT("/Game/ThirdPerson/Maps/Lobby")));
 
 protected: //受保护的部分
 
@@ -93,7 +93,7 @@ private: //私有部分
 	int32 NumPublicConnections{4};
 
 	//匹配类型
-	FString MatchType{TEXT("FreeForALL")};
+	FString MatchType{TEXT("")};
 
 	//大厅地址
 	FString PathToLobby{TEXT("")};
